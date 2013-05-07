@@ -69,7 +69,7 @@ function link_field_instance_settings_form($field, $instance) {
   $form = array(
     '#element_validate' => array('link_field_settings_form_validate'),
   );
-  
+
   $form['validate_url'] = array(
     '#type' => 'checkbox',
     '#title' => t('Validate URL'),
@@ -772,7 +772,12 @@ function theme_link_formatter_link_default($vars) {
  */
 function theme_link_formatter_link_plain($vars) {
   $link_options = $vars['element'];
-  unset($link_options['element']['title']);
+  if (isset($link_options['element']['title'])) {
+    unset($link_options['element']['title']);
+  }
+  else {
+    $vars['element']['title'] = '';
+  }
   unset($link_options['element']['url']);
   return empty($vars['element']['url']) ?
     check_plain($vars['element']['title']) :
